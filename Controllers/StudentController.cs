@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using StudentApi.DTOs;
 using StudentApi.Services;
 
@@ -6,6 +7,7 @@ namespace StudentApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class StudentController : ControllerBase
     {
         private readonly IStudentService _service;
@@ -15,7 +17,9 @@ namespace StudentApi.Controllers
             _service = service;
         }
 
-        // GET: api/Student
+        /// <summary>
+        /// Get all students. Requires authentication.
+        /// </summary>
         [HttpGet]
         public async Task<ActionResult<List<StudentResponseDto>>> GetStudents()
         {
@@ -24,7 +28,9 @@ namespace StudentApi.Controllers
             return Ok(students);
         }
 
-        // GET: api/Student/1
+        /// <summary>
+        /// Get a student by ID. Requires authentication.
+        /// </summary>
         [HttpGet("{id}")]
         public async Task<ActionResult<StudentResponseDto>> GetStudent(int id)
         {
@@ -32,14 +38,17 @@ namespace StudentApi.Controllers
 
             if (student == null)
             {
-                return NotFound();
+                return NotFound(new { message = $"Student with ID {id} not found" });
             }
 
             return Ok(student);
         }
 
-        // POST: api/Student
+        /// <summary>
+        /// Create a new student. Requires Admin role.
+        /// </summary>
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<StudentResponseDto>> CreateStudent(
             StudentCreateDto dto)
         {
@@ -51,8 +60,11 @@ namespace StudentApi.Controllers
                 student);
         }
 
-        // PUT: api/Student/1
+        /// <summary>
+        /// Update an existing student. Requires Admin role.
+        /// </summary>
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateStudent(
             int id,
             StudentUpdateDto dto)
@@ -61,21 +73,24 @@ namespace StudentApi.Controllers
 
             if (!updated)
             {
-                return NotFound();
+                return NotFound(new { message = $"Student with ID {id} not found" });
             }
 
             return NoContent();
         }
 
-        // DELETE: api/Student/1
+        /// <summary>
+        /// Delete a student. Requires Admin role.
+        /// </summary>
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteStudent(int id)
         {
             var deleted = await _service.DeleteAsync(id);
 
             if (!deleted)
             {
-                return NotFound();
+                return NotFound(new { message = $"Student with ID {id} not found" });
             }
 
             return NoContent();

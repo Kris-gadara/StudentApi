@@ -1,6 +1,113 @@
-@StudentApi_HostAddress = http://localhost:5070
+### StudentApi HTTP Testing
+### Uncomment and run these requests to test the API
+### Requires: Visual Studio or REST Client extension in VS Code
 
-GET {{StudentApi_HostAddress}}/weatherforecast/
+@baseUrl = https://localhost:7001
+@accessToken = 
+
+### 1. LOGIN - Get JWT Token (Admin)
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "Admin@123"
+}
+
+### 2. LOGIN - Get JWT Token (Regular User)
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "user",
+  "password": "User@123"
+}
+
+### 3. GET All Students (Requires Auth)
+GET {{baseUrl}}/api/student
+Authorization: Bearer {{accessToken}}
 Accept: application/json
+
+###
+
+### 4. GET Student by ID (Requires Auth)
+GET {{baseUrl}}/api/student/1
+Authorization: Bearer {{accessToken}}
+Accept: application/json
+
+###
+
+### 5. CREATE Student (Requires Admin)
+POST {{baseUrl}}/api/student
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "age": 21,
+  "course": "Computer Science"
+}
+
+###
+
+### 6. CREATE Student (Invalid - will return 400)
+POST {{baseUrl}}/api/student
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "name": "J",
+  "email": "invalid-email",
+  "age": 15,
+  "course": ""
+}
+
+###
+
+### 7. UPDATE Student (Requires Admin)
+PUT {{baseUrl}}/api/student/1
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "name": "Jane Doe",
+  "email": "jane@example.com",
+  "age": 22,
+  "course": "Data Science"
+}
+
+###
+
+### 8. DELETE Student (Requires Admin)
+DELETE {{baseUrl}}/api/student/1
+Authorization: Bearer {{accessToken}}
+
+###
+
+### 9. Test 401 Unauthorized (No Token)
+GET {{baseUrl}}/api/student
+Accept: application/json
+
+###
+
+### 10. Test 403 Forbidden (Non-Admin creating student)
+### First login as 'user' (non-admin) and get token
+### Then try to POST a student - should return 403
+POST {{baseUrl}}/api/student
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "name": "Alice Smith",
+  "email": "alice@example.com",
+  "age": 20,
+  "course": "Information Technology"
+}
+
+###
+
+### 11. Swagger UI
+GET {{baseUrl}}/
 
 ###

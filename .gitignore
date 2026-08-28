@@ -3,6 +3,12 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+# NOTE: Secrets, keys, and credentials
+# - JWT Secret Key should be stored in appsettings.Production.json (not committed)
+# - Use dotnet user-secrets for development
+# - Use Azure Key Vault for production
+# - Never commit real credentials to version control
+
 # User-specific files
 *.rsuser
 *.suo
