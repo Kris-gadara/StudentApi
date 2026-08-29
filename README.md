@@ -127,12 +127,12 @@ dotnet user-secrets init --project StudentApi.csproj
 Then set your JWT key:
 
 ```bash
-dotnet user-secrets set "Jwt:Key" "your-development-secret-key-minimum-32-characters-for-HS256" --project StudentApi.csproj
+dotnet user-secrets set "Jwt:Key" "<your-32-character-minimum-secret-key>" --project StudentApi.csproj
 ```
 
 **Important**: The key must be **at least 32 characters** for HMAC SHA256 signing.
 
-Example of a valid key:
+Example of a valid key format (do NOT use this literally):
 ```
 MySecureDevKeyFor32CharactersMinimum!
 ```
@@ -145,7 +145,7 @@ dotnet user-secrets list --project StudentApi.csproj
 
 You should see:
 ```
-Jwt:Key = your-development-secret-key-minimum-32-characters-for-HS256
+Jwt:Key = <your-32-character-minimum-secret-key>
 ```
 
 ### 3. Configure Production (Environment Variables)
@@ -154,10 +154,10 @@ For production deployment, set the JWT key via environment variables:
 
 ```bash
 # On Windows (PowerShell)
-$env:JWT_Key="your-production-secret-key-minimum-32-characters"
+$env:JWT_Key="<your-32-character-minimum-production-secret-key>"
 
 # On Linux/macOS
-export JWT_Key="your-production-secret-key-minimum-32-characters"
+export JWT_Key="<your-32-character-minimum-production-secret-key>"
 ```
 
 Or add to your deployment platform's secrets/environment configuration (Azure Key Vault, GitHub Secrets, Docker Compose, etc.).
@@ -412,7 +412,7 @@ Change `localhost` or `Database=StudentDB` as needed for your SQL Server instanc
 **Solution**: Set the User Secret:
 
 ```bash
-dotnet user-secrets set "Jwt:Key" "your-secret-key-minimum-32-characters" --project StudentApi.csproj
+dotnet user-secrets set "Jwt:Key" "<your-32-character-minimum-secret-key>" --project StudentApi.csproj
 ```
 
 ### "Cannot connect to database"
