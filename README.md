@@ -1,6 +1,6 @@
 # StudentApi
 
-A fresher-level **ASP.NET Core 10 Web API** demonstrating layered architecture with CRUD operations, Entity Framework Core, SQL Server integration, JWT authentication, and role-based authorization. Ideal for portfolio, interviews, and learning.
+An **ASP.NET Core 10 Web API** demonstrating layered architecture with CRUD operations, Entity Framework Core, SQL Server integration, JWT authentication, and role-based authorization. Ideal for portfolio, interviews, and learning.
 
 ## 🎯 Features
 
